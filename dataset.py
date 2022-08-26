@@ -10,7 +10,7 @@ from tensorflow.keras import layers
 
 TRANSMITTANCE = 0.3
 SIZE = 96
-
+BANDS = 31
 
 VALIDATION_CODED_APERTURE = f"./codes/H_T={TRANSMITTANCE}.mat"
 
@@ -24,7 +24,7 @@ def get_list_imgs(data_path):
 def generate_H(coded_size=None, transmittance=TRANSMITTANCE):
     H = tf.random.uniform(coded_size, dtype=tf.float32)
     H = tf.cast(H < transmittance, dtype=tf.float32)*1
-    H = coded2DTO3D(H)
+    H = coded2DTO3D(H, L=BANDS)
     return H
 
 
@@ -106,9 +106,7 @@ def get_csi_pipeline(data_path, input_size=(512, 512, 31), patches=True, origin_
                      batch_size=32, buffer_size=None, cache_dir='', factor=1, training=True):
 
     M, N, L = input_size
-    coded_size = (N, M + L - 1, 1)
-    size = M
-
+    coded_size = (M, N + L - 1, 1)
 
     def map_fun(x): return csi_mapping(x, coded_size, training=training)
     # def map_fun(x): return fine_mapping(x, size=size)

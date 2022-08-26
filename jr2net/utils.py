@@ -61,14 +61,8 @@ def ImgGradT(inputs):
     return output 
 
 @tf.function
-def coded2DTO3D(CA, input_shape=None):
-
-    if input_shape:
-        M, N, L = input_shape
-    else:
-        _ , N, M, _ = CA.shape
-        L = M - N + 1
-
+def coded2DTO3D(CA, L=31):
+    _ , N, M, _ = CA.shape
     H = tf.concat([CA[:, :, i:N+i, :] for i in range(L)], -1)
     return H
 
