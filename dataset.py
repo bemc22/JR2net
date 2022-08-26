@@ -58,7 +58,7 @@ class DataGen(tf.data.Dataset):
 
         for img_path in list_imgs:
             # x = sio.loadmat(img_path.decode("utf-8"))['img']
-            x = sio.loadmat(img_path)['img']
+            x = sio.loadmat(img_path)['cube']
             yield x
 
     def __new__(cls, input_size=(512, 512, 31), data_path="../data/kaist/train"):
