@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import tensorflow as tf
-
+from tensorflow.keras.callbacks import Callback
 
 TV_KERNEL = np.zeros((3,3,1,1))
 
@@ -29,7 +29,6 @@ def tv_prior(inputs):
 @tf.function
 def dd_cassi(x):
     inputs, H = x
-    inputs = tf.expand_dims(inputs, 1)
     y = tf.multiply(H, inputs)
     y = tf.reduce_sum(y, -1, keepdims=True)
     return y
@@ -39,10 +38,7 @@ def dd_icassi(x):
     y, H = x
 
     Hn = tf.divide(H, tf.add(tf.reduce_sum(H, -1, keepdims=True), 1e-12))
-    Hn = tf.divide(Hn, tf.add(tf.reduce_sum(H, 1, keepdims=True), 1e-12))
-    # y = tf.tile(y, [1, 1, 1, 1, H.shape[-1] ])
     y = tf.multiply(Hn, y) 
-    y =  tf.reduce_sum(y, axis=1)
     return y
 
 def ChannelwiseConv2D(inputs, kernel):
@@ -115,3 +111,9 @@ def addGaussianNoise(y,SNR):
     sigma = np.sum(np.power(y,2))/(np.product(y.shape)*10**(SNR/10))
     w = np.random.normal(0, np.sqrt(sigma),size =y.shape)
     return y+w
+
+
+class ClearMemory(Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        gc.collect()
+        k.clear_session()

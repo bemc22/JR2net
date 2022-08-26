@@ -7,9 +7,11 @@ from tensorflow.data import AUTOTUNE
 from jr2net.utils import coded2DTO3D, dd_cassi
 from tensorflow.keras import layers
 
-# TRANSMITTANCE = 0.3
-TRANSMITTANCE = 0.5
+TRANSMITTANCE = 0.3
 SIZE = 96
+
+
+VALIDATION_CODED_APERTURE = f"./codes/H_T={TRANSMITTANCE}.mat"
 
 def get_list_imgs(data_path):
     list_imgs = os.listdir(data_path)
@@ -25,11 +27,12 @@ def generate_H(coded_size=None, transmittance=TRANSMITTANCE):
     return H
 
 
-def csi_mapping(x, coded_size, transmittance=TRANSMITTANCE):
+def csi_mapping(x, coded_size, transmittance=TRANSMITTANCE, training=True):
     batch = x.shape[0]
     coded_size = (batch,) + coded_size
     H = generate_H(coded_size, transmittance)
-    # return (x, H), x
+    if training:
+        return (x, H), x
     y = dd_cassi([x, H])
     return (y, H), x
 
@@ -70,8 +73,8 @@ class DataGen(tf.data.Dataset):
 
 def get_val_csi(data_path, size=256):
 
-    # H = sio.loadmat('CA.mat')['ca'][None, ..., None]
-    H = sio.loadmat('Hreal.mat')['H']
+    H = sio.loadmat(VALIDATION_CODED_APERTURE)['H'][None, ..., None]
+    # H = sio.loadmat('Hreal.mat')['H']
     H = tf.cast(H, dtype=tf.float32)
     # H = coded2DTO3D(H)[None, ...]
 
@@ -98,14 +101,15 @@ def get_val_csi(data_path, size=256):
 
 
 def get_csi_pipeline(data_path, input_size=(512, 512, 31), patches=True,
-                     batch_size=32, buffer_size=None, cache_dir='', factor=1):
+                     batch_size=32, buffer_size=None, cache_dir='', factor=1, training=True):
 
     M, N, L = input_size
     coded_size = (N, M + L - 1, 1)
     size = M
 
-    # def map_fun(x): return csi_mapping(x, coded_size)
-    def map_fun(x): return fine_mapping(x, size=size)
+
+    def map_fun(x): return csi_mapping(x, coded_size, training=training)
+    # def map_fun(x): return fine_mapping(x, size=size)
     def replicate(x): return tf.tile(x, [factor, 1, 1, 1])
 
     patches = tf.keras.Sequential([
