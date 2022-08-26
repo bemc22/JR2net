@@ -43,7 +43,6 @@ class JR2net:
             Af = decoder(encoder(inputs))
             Af = Lambda(lambda x: tf.identity(x), name='repre')(Af)
             input_sensor = Phi([inputs, CA])
-            print(input_sensor)
             X0 = PhiT([input_sensor, CA])
             
 
