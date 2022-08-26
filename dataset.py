@@ -71,7 +71,7 @@ class DataGen(tf.data.Dataset):
         )
 
 
-def get_val_csi(data_path, size=256):
+def get_val_csi(data_path, size=256, origin_size=(512, 512, 31)):
 
     H = sio.loadmat(VALIDATION_CODED_APERTURE)['H'][None, ..., None]
     # H = sio.loadmat('Hreal.mat')['H']
@@ -85,7 +85,7 @@ def get_val_csi(data_path, size=256):
     def map_fun(x): return ( x, H ), x
 
 
-    dataset = DataGen(input_size=(512, 512, 31),
+    dataset = DataGen(input_size=origin_size,
                       data_path=data_path)
 
     dataset = (
@@ -100,7 +100,7 @@ def get_val_csi(data_path, size=256):
 
 
 
-def get_csi_pipeline(data_path, input_size=(512, 512, 31), patches=True,
+def get_csi_pipeline(data_path, input_size=(512, 512, 31), patches=True, origin_size=(512, 512, 31),
                      batch_size=32, buffer_size=None, cache_dir='', factor=1, training=True):
 
     M, N, L = input_size
@@ -116,7 +116,7 @@ def get_csi_pipeline(data_path, input_size=(512, 512, 31), patches=True,
         layers.experimental.preprocessing.RandomCrop(M, N)
     ])
 
-    dataset = DataGen(input_size=(512, 512, 31),
+    dataset = DataGen(input_size=origin_size,
                       data_path=data_path).cache(cache_dir)
 
     if factor > 1:
