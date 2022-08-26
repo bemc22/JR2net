@@ -1,7 +1,9 @@
+import gc
 import math
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.callbacks import Callback
+from tensorflow.keras import backend as k
 
 TV_KERNEL = np.zeros((3,3,1,1))
 
