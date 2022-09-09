@@ -15,9 +15,17 @@ If this code is useful for your and you use it in an academic work, please consi
 
 ```bib
 @article{monroy2022jr2net,
-  title={JR2net: A Joint Non-Linear Representation and Recovery Network for Compressive Spectral Imaging},
-  author={Monroy, Brayan and Bacca, Jorge and Arguello, Henry},
-  journal={arXiv preprint arXiv:2205.07770},
-  year={2022}
+author = {Monroy, Brayan and Bacca, Jorge and Arguello, Henry},
+journal = {Appl. Opt.},
+keywords = {Electromagnetic radiation; Imaging systems; Light intensity; Medical imaging; Neural networks; Spectral imaging},
+number = {26},
+pages = {7757--7766},
+publisher = {Optica Publishing Group},
+title = {JR2net: a joint non-linear representation and recovery network for compressive spectral imaging},
+volume = {61},
+month = {Sep},
+year = {2022},
+url = {http://opg.optica.org/ao/abstract.cfm?URI=ao-61-26-7757},
+doi = {10.1364/AO.463726},
 }
 ```
