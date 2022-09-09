@@ -1,6 +1,7 @@
 # JR2net: A Joint Representation and Recovery Network for Compressive Spectral Imaging
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bemc22/JR2net/blob/main/demo_train.ipynb)
+[![DOI:10.1364/AO.463726](https://zenodo.org/badge/DOI/10.1364/AO.463726.svg)](https://doi.org/10.1364/AO.463726)
 [![arXiv](https://img.shields.io/badge/arXiv-2205.07770-b31b1b.svg?style=plastic)](https://arxiv.org/abs/2205.07770)
 
 ## Abstract
