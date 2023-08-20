@@ -16,7 +16,7 @@ class JR2net:
 
         N, M, L = input_size
         self.input_size = input_size
-        self.unrolled_size = (None, N, M, 1)
+        self.unrolled_size = (N, M, 1)
         self.features = features
         self.factors = factors
         self.conv_block = CONV_BLOCKS[conv_model]
