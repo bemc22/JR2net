@@ -112,10 +112,6 @@ def get_csi_pipeline(data_path, input_size=(512, 512, 31), patches=True, origin_
     # def map_fun(x): return fine_mapping(x, size=size)
     def replicate(x): return tf.tile(x, [factor, 1, 1, 1])
 
-    patches = tf.keras.Sequential([
-        layers.experimental.preprocessing.RandomCrop(M, N)
-    ])
-
     dataset = DataGen(input_size=origin_size,
                       data_path=data_path).cache(cache_dir)
 
@@ -128,6 +124,9 @@ def get_csi_pipeline(data_path, input_size=(512, 512, 31), patches=True, origin_
         )
 
     if patches:
+        patches = tf.keras.Sequential([
+            layers.experimental.preprocessing.RandomCrop(M, N)
+        ])
         dataset = dataset.map(patches, num_parallel_calls=AUTOTUNE)
 
     if buffer_size:
