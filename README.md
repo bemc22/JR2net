@@ -10,7 +10,7 @@ Deep learning models are state-of-the-art in compressive spectral imaging (CSI) 
 
 
 ## How to cite
-If this code is useful for your and you use it in an academic work, please consider citing this paper as
+If this code is useful for your research and you use it in an academic work, please consider citing this paper as
 
 
 ```bib
